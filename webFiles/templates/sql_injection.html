@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Injection Test</title>
+</head>
+<body>
+    <h1>SQL Injection Demo (Login)</h1>
+    
+    <form method="POST">
+        <label for="username">Benutzername:</label>
+        <input type="text" id="username" name="username" required>
+        
+        <label for="password">Passwort:</label>
+        <input type="text" id="password" name="password" required>
+        
+        <button type="submit">Login</button>
+    </form>
+
+    {% if result %}
+        <h2>{{ result }}</h2>
+    {% endif %}
+</body>
+</html>
