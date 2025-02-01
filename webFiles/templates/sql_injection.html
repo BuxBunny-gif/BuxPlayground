@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SQL Injection Test</title>
+    <script>
+        function toggleExplanation() {
+            var explanation = document.getElementById("explanation");
+            if (explanation.style.display === "none") {
+                explanation.style.display = "block";
+            } else {
+                explanation.style.display = "none";
+            }
+        }
+    </script>
 </head>
 <body>
     <h1>SQL Injection Demo (Login)</h1>
@@ -21,5 +31,18 @@
     {% if result %}
         <h2>{{ result }}</h2>
     {% endif %}
+
+    <button onclick="toggleExplanation()">Erklärung anzeigen</button>
+    
+    <div id="explanation" style="display: none; margin-top: 20px; padding: 10px; border: 1px solid #ccc;">
+        <h2>Was ist SQL Injection?</h2>
+        <p>SQL Injection ist eine Angriffstechnik, bei der ein Angreifer SQL-Code in eine unsichere Datenbankabfrage einschleust.</p>
+        <p>Beispiel für eine unsichere SQL-Abfrage:</p>
+        <pre>SELECT * FROM users WHERE username = 'admin' AND password = '' OR '1'='1'</pre>
+        <p>Da '1'='1' immer wahr ist, kann sich ein Angreifer ohne das richtige Passwort anmelden!</p>
+        <h3>Wie kann man das verhindern?</h3>
+        <p>Nutze Prepared Statements statt unsicherer String-Konkatenation:</p>
+        <pre>cur.execute("SELECT * FROM users WHERE username = ? AND password = ?", (username, password))</pre>
+    </div>
 </body>
 </html>

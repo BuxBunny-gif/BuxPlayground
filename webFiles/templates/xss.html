@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Count & XSS Test</title>
+    <script>
+        function toggleExplanation() {
+            var explanation = document.getElementById("explanation");
+            if (explanation.style.display === "none") {
+                explanation.style.display = "block";
+            } else {
+                explanation.style.display = "none";
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Benutzeranzahl & XSS Test</h1>
+
+    <h2>👥 Aktuelle Anzahl der Benutzer: {{ user_count }}</h2>
+
+    <h2>XSS Test</h2>
+    <form method="POST">
+        <label for="comment">Schreibe einen Kommentar:</label>
+        <input type="text" id="comment" name="comment" required>
+        <button type="submit">Senden</button>
+    </form>
+
+    <h3>Letzter Kommentar:</h3>
+    <p>{{ last_comment | safe }}</p>
+
+    <button onclick="toggleExplanation()">Erklärung anzeigen</button>
+
+    <form method="POST" action="/reset_db">
+        <button type="submit" style="margin-top: 20px; background-color: red; color: white; border: none; padding: 10px;">🔄 Datenbank zurücksetzen</button>
+    </form>
+
+    <div id="explanation" style="display: none; margin-top: 20px; padding: 10px; border: 1px solid #ccc;">
+        <h2>🔍 Was ist Cross-Site Scripting (XSS)?</h2>
+        <p><strong>Cross-Site Scripting (XSS)</strong> ist eine Sicherheitslücke, bei der ein Angreifer bösartigen JavaScript-Code in eine Webseite einschleust.</p>
+        
+        <h3>🛠 Wie funktioniert der Angriff?</h3>
+        <p>Viele Webseiten erlauben Benutzereingaben, z. B. Kommentare oder Suchfelder. Wenn diese Eingaben ungefiltert gespeichert und an andere Nutzer zurückgegeben werden, kann ein Angreifer JavaScript-Code einschleusen.</p>
+    
+        <h3>🚨 Beispiel für eine XSS-Schwachstelle</h3>
+        <p>Angreifer geben in ein unsicheres Eingabefeld folgenden Code ein:</p>
+        <pre>&lt;script&gt;alert('Diese Seite ist gehackt!')&lt;/script&gt;</pre>
+        <p>Wenn die Webseite diese Eingabe speichert und ungefiltert ausgibt, führt der Browser den JavaScript-Code aus – was zu einem Angriff führen kann.</p>
+    
+        <h3>🎯 Welche Gefahren gibt es?</h3>
+        <ul>
+            <li>🔑 Diebstahl von Cookies – Der Angreifer kann sich als anderer Benutzer ausgeben.</li>
+            <li>💻 Schadcode ausführen – Besucher der Webseite könnten auf eine Fake-Seite umgeleitet werden.</li>
+            <li>📩 Phishing-Angriffe – Nutzer könnten gefälschte Login-Seiten sehen.</li>
+        </ul>
+    
+        <h3>🛡 Schutzmaßnahmen gegen XSS</h3>
+        <p>Um XSS zu verhindern, sollten Webseitenentwickler folgende Maßnahmen umsetzen:</p>
+        <ul>
+            <li>✨ HTML-Escaping: Spezielle Zeichen wie `<` oder `>` als `&lt;` und `&gt;` speichern.</li>
+            <li>🔒 Content Security Policy (CSP): Beschränkt, welche Skripte ausgeführt werden dürfen.</li>
+            <li>✅ Eingaben validieren & bereinigen: Keine gefährlichen Zeichen in Eingabefeldern erlauben.</li>
+        </ul>
+    
+        <h3>🚀 Fazit</h3>
+        <p>XSS ist eine der häufigsten Sicherheitslücken im Web. Durch saubere Programmierung und Sicherheitsmaßnahmen kann man solche Angriffe verhindern.</p>
+    
+        <p>🔍 **Merke:** Jede Webseite, die Benutzereingaben speichert oder anzeigt, sollte auf XSS-Schutz achten!</p>
+    </div>
+    
+</body>
+</html>
